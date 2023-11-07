@@ -1,10 +1,6 @@
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main(String[] args) 
@@ -12,12 +8,12 @@ public class App
         try 
         {
             System.out.println("Server in avvio!");
-            ServerSocket server = new ServerSocket(4567);
+            ServerSocket server = new ServerSocket(4567); //crea server su cui ricevere
             do 
             {
-                Socket s = server.accept();
-                MioThread m = new MioThread(s);
-                m.start();
+                Socket s = server.accept(); //crea socket
+                MioThread m = new MioThread(s); //crea processo
+                m.start(); //start processo
             } 
             while (true);
         } 

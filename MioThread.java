@@ -24,31 +24,31 @@ public class MioThread extends Thread
             int numero = random.nextInt(100)+1;
             System.out.println(numero);
 
-            BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            DataOutputStream output = new DataOutputStream(s.getOutputStream());
+            BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream())); //istanza per ricevere dati dal client
+            DataOutputStream output = new DataOutputStream(s.getOutputStream()); //istanza per inviare dati al client
             int risposta = 0;
             do 
             {
-                String stringaRicevuta = input.readLine();
+                String stringaRicevuta = input.readLine(); //riceve dati
                 int numeroRicevuto = Integer.parseInt(stringaRicevuta);
                 System.out.println("Numero ricevuto: " + numeroRicevuto);
                 if(numeroRicevuto>numero)
                 {
-                    output.writeBytes("2\n");
+                    output.writeBytes("2\n"); //invia dati
                     risposta = 2;
                 }
                 if(numeroRicevuto<numero)
                 {
-                    output.writeBytes("1\n");
+                    output.writeBytes("1\n"); //invia dati
                     risposta = 1;
                 }    
                 if(numeroRicevuto==numero)
                 {
-                    output.writeBytes("3\n");
+                    output.writeBytes("3\n"); //invia dati
                     risposta = 3;
                 }
             } while (risposta != 3);
-            s.close();
+            s.close(); //chiude socket
         }
         catch (Exception e) 
         {
