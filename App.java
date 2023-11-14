@@ -5,6 +5,7 @@ public class App
 {
     public static void main(String[] args) 
     {
+        int n=5;
         try 
         {
             System.out.println("Server in avvio!");
@@ -12,7 +13,7 @@ public class App
             do 
             {
                 Socket s = server.accept(); //accetta connessione
-                MioThread m = new MioThread(s); //crea thread
+                MioThread m = new MioThread(s,n); //crea thread
                 m.start(); //start processo
             } 
             while (true);

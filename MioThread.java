@@ -8,10 +8,12 @@ public class MioThread extends Thread
 {
 
     Socket s;
+    int n_biglietti;
 
-    public MioThread(Socket s)
+    public MioThread(Socket s, int b)
     {
         this.s = s;
+        this.n_biglietti=b;
     }
 
     public void run()
@@ -20,34 +22,33 @@ public class MioThread extends Thread
         {
             System.out.println("Un client si è collegato");
 
-            Random random = new Random();
-            int numero = random.nextInt(100)+1;
-            System.out.println(numero);
-
             BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream())); //istanza per ricevere dati dal client
             DataOutputStream output = new DataOutputStream(s.getOutputStream()); //istanza per inviare dati al client
-            int risposta = 0;
+            int n=1; 
             do 
             {
                 String stringaRicevuta = input.readLine(); //riceve dati
-                int numeroRicevuto = Integer.parseInt(stringaRicevuta);
-                System.out.println("Numero ricevuto: " + numeroRicevuto);
-                if(numeroRicevuto>numero)
+
+                if(stringaRicevuta=='D')
                 {
-                    output.writeBytes("2\n"); //invia dati
-                    risposta = 2;
+                    output.writeBytes("disponibili "+n_biglietti+"\n"); //invia dati
                 }
-                if(numeroRicevuto<numero)
+                if(stringaRicevuta=='A')
                 {
-                    output.writeBytes("1\n"); //invia dati
-                    risposta = 1;
-                }    
-                if(numeroRicevuto==numero)
-                {
-                    output.writeBytes("3\n"); //invia dati
-                    risposta = 3;
+                    if(n_biglietti==0)
+                        output.writeBytes("biglietti terminati\n");
+                    else
+                    {
+                        output.writeBytes("biglietto acquistato\n");
+                        n_biglietti--;
+                    }
                 }
-            } while (risposta != 3);
+                if(stringaRicevuta=='Q')
+                {
+                    output.writeBytes("exit\n");
+                    n=2;
+                }
+            } while (n!=2);
             s.close(); //chiude socket
         }
         catch (Exception e) 
