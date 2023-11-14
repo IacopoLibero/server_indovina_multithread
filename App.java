@@ -8,11 +8,11 @@ public class App
         try 
         {
             System.out.println("Server in avvio!");
-            ServerSocket server = new ServerSocket(4567); //crea server su cui ricevere
+            ServerSocket server = new ServerSocket(4567); //crea socket su cui ricevere
             do 
             {
-                Socket s = server.accept(); //crea socket
-                MioThread m = new MioThread(s); //crea processo
+                Socket s = server.accept(); //accetta connessione
+                MioThread m = new MioThread(s); //crea thread
                 m.start(); //start processo
             } 
             while (true);
